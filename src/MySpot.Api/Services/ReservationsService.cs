@@ -19,7 +19,16 @@ public class ReservationsService
 
     public int? Create(Reservation reservation)
     {
+        var now = DateTime.UtcNow.Date;
+        var pastDays = now.DayOfWeek is DayOfWeek.Sunday ? 7 : (int)now.DayOfWeek;
+        var remainingDays = 7 - pastDays;
+
         if (ParkingSpotNames.All(spot => spot != reservation.ParkingSpotName))
+        {
+            return default;
+        }
+
+        if (!(reservation.Date.Date >= now && reservation.Date.Date <= now.AddDays(remainingDays)))
         {
             return default;
         }
@@ -46,6 +55,11 @@ public class ReservationsService
     {
         var existingReservation = Reservations.SingleOrDefault(r => r.Id == reservation.Id);
         if (existingReservation is null)
+        {
+            return false;
+        }
+
+        if (reservation.Date <= DateTime.UtcNow)
         {
             return false;
         }

@@ -1,7 +1,32 @@
 @url = http://localhost:8000 
+@reservationId = 1
 
 ###
 GET {{url}}
 
 ###
-GET {{url}}/WeatherForecast
+GET {{url}}/reservations
+
+###
+GET {{url}}/reservations/{{reservationId}}
+
+###
+POST {{url}}/reservations
+Content-Type: application/json
+
+{
+    "employeeName": "John Doe",
+    "parkingSpotName": "P3",
+    "licensePlate": "XYZT0Z10"
+}
+
+###
+PUT  {{url}}/reservations/{{reservationId}}
+Content-Type: application/json
+
+{
+    "licensePlate": "XYZR0Z19"
+}
+
+###
+DELETE {{url}}/reservations/{{reservationId}}

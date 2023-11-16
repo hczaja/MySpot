@@ -1,0 +1,7 @@
+@url = http://localhost:8000 
+
+###
+GET {{url}}
+
+###
+GET {{url}}/WeatherForecast

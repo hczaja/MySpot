@@ -56,20 +56,22 @@ public class WeeklyParkingSpotTests
 
         var reservation = new Reservation(
             Guid.NewGuid(), _weeklyParkingSpot.Id, "Jon Snow", "ABC123", reservationDate);
-        _weeklyParkingSpot.AddReservation(reservation, _date);
+        _weeklyParkingSpot2.AddReservation(reservation, _date);
 
-        _weeklyParkingSpot.Reservations.ShouldHaveSingleItem();
+        _weeklyParkingSpot2.Reservations.ShouldHaveSingleItem();
     }
 
     #region  Arrange
 
     private readonly Date _date;
     private readonly WeeklyParkingSpot _weeklyParkingSpot;
+    private readonly WeeklyParkingSpot _weeklyParkingSpot2;
 
     public WeeklyParkingSpotTests()
     {
         _date = new Date(new DateTime(2023, 11, 18));
         _weeklyParkingSpot = new WeeklyParkingSpot(Guid.NewGuid(), new Week(_date), "P1");
+        _weeklyParkingSpot2 = new WeeklyParkingSpot(Guid.NewGuid(), new Week(_date), "P2");
     }
 
     #endregion

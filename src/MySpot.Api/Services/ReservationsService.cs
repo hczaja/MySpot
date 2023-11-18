@@ -1,24 +1,27 @@
 using MySpot.Api.Commands;
 using MySpot.Api.DTO;
 using MySpot.Api.Entities;
-using MySpot.Api.ValueObjects;
+using MySpot.Api.Repositories;
 
 namespace MySpot.Api.Services;
 
-public class ReservationsService
+public class ReservationsService : IReservationService
 {
-    private readonly Clock _clock = new();
-    private readonly List<WeeklyParkingSpot> _weeklyParkingSpots;
+    private readonly IClock _clock;
+    private readonly IWeeklyParkingSpotRepository _repository;
 
-    public ReservationsService(List<WeeklyParkingSpot> weeklyParkingSpots)
+    public ReservationsService(IClock clock, IWeeklyParkingSpotRepository weeklyParkingSpotRepository)
     {
-        _weeklyParkingSpots = weeklyParkingSpots;
+        _clock = clock;
+        _repository = weeklyParkingSpotRepository;
     }
     
     public ReservationDto Get(Guid id) => GetAllWeekly().SingleOrDefault(r => r.Id == id);
 
     public IEnumerable<ReservationDto> GetAllWeekly() => 
-        _weeklyParkingSpots.SelectMany(x => x.Reservations)
+        _repository
+            .GetAll()
+            .SelectMany(x => x.Reservations)
             .Select(r => new ReservationDto()
             {
                 Id = r.Id,
@@ -29,7 +32,7 @@ public class ReservationsService
 
     public Guid? Create(CreateReservation command)
     {
-        var weeklyParkingSpot = _weeklyParkingSpots.SingleOrDefault(x => x.Id == command.ParkingSpotId);
+        var weeklyParkingSpot = _repository.Get(command.ParkingSpotId);
         if (weeklyParkingSpot is null)
         {
             return default;
@@ -86,5 +89,5 @@ public class ReservationsService
     }
 
     private WeeklyParkingSpot GetWeeklyParkingSpotByReservation(Guid reservationId)
-        => _weeklyParkingSpots.SingleOrDefault(x => x.Reservations.Any(r => r.Id == reservationId));
+        => _repository.GetAll().SingleOrDefault(x => x.Reservations.Any(r => r.Id == reservationId));
 }

@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
-using MySpot.Api.Commands;
-using MySpot.Api.Entities;
-using MySpot.Api.Repositories;
-using MySpot.Api.Services;
-using MySpot.Api.ValueObjects;
+using MySpot.Application.Commands;
+using MySpot.Core.Entities;
+using MySpot.Core.Repositories;
+using MySpot.Application.Services;
+using MySpot.Core.ValueObjects;
 using MySpot.Tests.Unit.Shared;
 using Shouldly;
+using MySpot.Infrastructure.Repositories;
 
 namespace MySpot.Tests.Unit.Services;
 

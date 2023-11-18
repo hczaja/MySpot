@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySpot.Api", "src\MySpot.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySpot.Tests.Unit", "tests\MySpot.Tests.Unit\MySpot.Tests.Unit.csproj", "{AC7E540D-03EA-4CA3-910A-CBDC780C3B84}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySpot.Core", "src\MySpot.Core\MySpot.Core.csproj", "{7BA68FB8-D5E2-4A64-85A0-5FBC5C917FC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySpot.Application", "src\MySpot.Application\MySpot.Application.csproj", "{71BAE6EB-709A-49B8-987F-FAD293FA92FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySpot.Infrastructure", "src\MySpot.Infrastructure\MySpot.Infrastructure.csproj", "{58460603-F92D-4495-B840-F3E4D64AF7CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,8 +32,23 @@ Global
 		{AC7E540D-03EA-4CA3-910A-CBDC780C3B84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC7E540D-03EA-4CA3-910A-CBDC780C3B84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC7E540D-03EA-4CA3-910A-CBDC780C3B84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BA68FB8-D5E2-4A64-85A0-5FBC5C917FC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BA68FB8-D5E2-4A64-85A0-5FBC5C917FC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BA68FB8-D5E2-4A64-85A0-5FBC5C917FC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BA68FB8-D5E2-4A64-85A0-5FBC5C917FC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71BAE6EB-709A-49B8-987F-FAD293FA92FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71BAE6EB-709A-49B8-987F-FAD293FA92FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71BAE6EB-709A-49B8-987F-FAD293FA92FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71BAE6EB-709A-49B8-987F-FAD293FA92FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58460603-F92D-4495-B840-F3E4D64AF7CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58460603-F92D-4495-B840-F3E4D64AF7CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58460603-F92D-4495-B840-F3E4D64AF7CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58460603-F92D-4495-B840-F3E4D64AF7CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BA710A44-E030-456A-A30A-5C5AF98C89CE} = {A7F6784C-1E7F-4C20-A185-3E6453CD98D3}
+		{7BA68FB8-D5E2-4A64-85A0-5FBC5C917FC4} = {A7F6784C-1E7F-4C20-A185-3E6453CD98D3}
+		{71BAE6EB-709A-49B8-987F-FAD293FA92FD} = {A7F6784C-1E7F-4C20-A185-3E6453CD98D3}
+		{58460603-F92D-4495-B840-F3E4D64AF7CA} = {A7F6784C-1E7F-4C20-A185-3E6453CD98D3}
 	EndGlobalSection
 EndGlobal

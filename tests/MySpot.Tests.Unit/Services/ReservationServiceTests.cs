@@ -6,7 +6,7 @@ using MySpot.Application.Services;
 using MySpot.Core.ValueObjects;
 using MySpot.Tests.Unit.Shared;
 using Shouldly;
-using MySpot.Infrastructure.Repositories;
+using MySpot.Infrastructure.DAL.Repositories;
 
 namespace MySpot.Tests.Unit.Services;
 

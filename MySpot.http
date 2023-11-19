@@ -1,5 +1,5 @@
 @url = http://localhost:8000 
-@reservationId = 00000000-0000-0000-0000-000000000001
+@reservationId = 41b25539-c72a-444f-8d16-0520efae0714
 @parkingSpotId = 00000000-0000-0000-0000-000000000001
 
 ###

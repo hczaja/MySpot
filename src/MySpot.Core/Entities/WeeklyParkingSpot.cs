@@ -19,7 +19,7 @@ public class WeeklyParkingSpot
         Name = name;
     }
 
-    public void AddReservation(Reservation reservation, Date now)
+    internal void AddReservation(Reservation reservation, Date now)
     {
         bool isInvalidDate = reservation.Date < Week.From ||
                              reservation.Date > Week.To ||

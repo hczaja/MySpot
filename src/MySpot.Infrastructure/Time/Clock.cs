@@ -1,4 +1,4 @@
-using MySpot.Application.Services;
+using MySpot.Core.Services;
 using MySpot.Core.ValueObjects;
 
 namespace MySpot.Infrastructure.Services;

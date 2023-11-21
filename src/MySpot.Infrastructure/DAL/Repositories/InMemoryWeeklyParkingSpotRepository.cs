@@ -1,8 +1,8 @@
 using MySpot.Core.Entities;
-using MySpot.Application.Services;
 using MySpot.Core.ValueObjects;
 using MySpot.Core.Repositories;
 using System.Runtime.CompilerServices;
+using MySpot.Core.Services;
 
 [assembly: InternalsVisibleTo("MySpot.Tests.Unit")]
 namespace MySpot.Infrastructure.DAL.Repositories;

@@ -21,7 +21,7 @@ public class ReservationServiceTests
       var parkingSpot = parkingSpots.First();
 
       var command = new ReserveParkingSpotForVehicle(
-         parkingSpot.Id, Guid.NewGuid(), "Jon Snow", "ABC123", DateTime.UtcNow.Date);
+         parkingSpot.Id, Guid.NewGuid(), "Jon Snow", "ABC123", DateTime.Parse("2023-11-23"));
    
       var reservationId = await _reservationService.ReserveForVehicleAsync(command);
 
@@ -41,7 +41,7 @@ public class ReservationServiceTests
    {
       _clock = new TestClock();
       _weeklyParkingSpotRepository = new InMemoryWeeklyParkingSpotRepository(_clock);
-      _polices = new List<IReservationPolicy>() { new TestNoReservationPolicy() };
+      _polices = new List<IReservationPolicy>() { new RegularEmployeeReservationPolicy(_clock) };
       _parkingReservationService = new ParkingReservationService(_polices, _clock);
       _reservationService = new ReservationsService(_clock, _weeklyParkingSpotRepository, _parkingReservationService);
    }

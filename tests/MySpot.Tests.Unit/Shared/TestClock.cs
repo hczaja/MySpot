@@ -5,5 +5,5 @@ namespace MySpot.Tests.Unit.Shared;
 
 public class TestClock : IClock
 {
-    public Date Current() => new Date(DateTime.Parse("2023-11-21"));
+    public Date Current() => new Date(new DateTime(2023, 11, 22, 17, 0, 0));
 }

@@ -5,5 +5,5 @@ namespace MySpot.Infrastructure.Services;
 
 public class Clock : IClock
 {
-    public Date Current() => new(DateTimeOffset.Now);    
+    public Date Current() => new(DateTime.UtcNow);    
 }

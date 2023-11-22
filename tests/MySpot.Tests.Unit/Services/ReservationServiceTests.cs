@@ -21,7 +21,7 @@ public class ReservationServiceTests
       var parkingSpot = parkingSpots.First();
 
       var command = new ReserveParkingSpotForVehicle(
-         parkingSpot.Id, Guid.NewGuid(), "Jon Snow", "ABC123", DateTime.Parse("2023-11-23"));
+         parkingSpot.Id, Guid.NewGuid(), "Jon Snow", "ABC123", DateTime.Parse("2023-11-23"), 2);
    
       var reservationId = await _reservationService.ReserveForVehicleAsync(command);
 

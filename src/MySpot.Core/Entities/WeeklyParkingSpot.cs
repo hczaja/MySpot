@@ -5,19 +5,26 @@ namespace MySpot.Core.Entities;
 
 public class WeeklyParkingSpot
 {
+    public const int MaxCapacity = 2;
+
     private readonly HashSet<Reservation> _reservations = new();
     
     public ParkingSpotId Id { get; private set; }
     public Week Week { get; private set; }
     public string Name { get; private set; }
+    public Capacity Capacity { get; private set; }
     public IEnumerable<Reservation> Reservations => _reservations;
 
-    public WeeklyParkingSpot(ParkingSpotId id, Week week, string name)
+    private WeeklyParkingSpot(ParkingSpotId id, Week week, string name, Capacity capacity)
     {
         Id = id;
         Week = week;
         Name = name;
+        Capacity = capacity;
     }
+
+    public static WeeklyParkingSpot Create(ParkingSpotId id, Week week, ParkingSpotName name)
+        => new WeeklyParkingSpot(id, week, name, MaxCapacity);
 
     internal void AddReservation(Reservation reservation, Date now)
     {
@@ -28,12 +35,12 @@ public class WeeklyParkingSpot
         if (isInvalidDate)
             throw new InvalidReservationDayException(reservation.Date.Value.Date);
 
-        bool reservationAlreadyExists = Reservations.Any(r => 
-            r.Date == reservation.Date);
+        var dateCapacity = _reservations
+            .Where(x => x.Date == reservation.Date)
+            .Sum(x => x.Capacity);
 
-        if (reservationAlreadyExists)
-            throw new ParkingSpotAlreadyReservedException(Name, reservation.Date.Value.Date);
-
+        if (dateCapacity + reservation.Capacity > Capacity)
+            throw new ParkingSpotCapacityExceededException(Id);
 
         _reservations.Add(reservation);
     }

@@ -14,6 +14,8 @@ public sealed record ReservationId
         Id = id;
     }
 
+    public static ReservationId Create() => new ReservationId(Guid.NewGuid());
+
     public static bool operator ==(Guid guid, ReservationId parkingSpotId)
         => guid == parkingSpotId.Id;
 

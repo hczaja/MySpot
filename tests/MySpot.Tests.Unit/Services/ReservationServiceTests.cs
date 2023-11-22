@@ -8,6 +8,7 @@ using MySpot.Tests.Unit.Shared;
 using Shouldly;
 using MySpot.Infrastructure.DAL.Repositories;
 using MySpot.Core.Services;
+using MySpot.Core.Policies;
 
 namespace MySpot.Tests.Unit.Services;
 
@@ -19,10 +20,10 @@ public class ReservationServiceTests
       var parkingSpots = await _weeklyParkingSpotRepository.GetAllAsync();
       var parkingSpot = parkingSpots.First();
 
-      var command = new CreateReservation(
+      var command = new ReserveParkingSpotForVehicle(
          parkingSpot.Id, Guid.NewGuid(), "Jon Snow", "ABC123", DateTime.UtcNow.Date);
    
-      var reservationId = await _reservationService.CreateAsync(command);
+      var reservationId = await _reservationService.ReserveForVehicleAsync(command);
 
       reservationId.ShouldNotBeNull();
       reservationId.Value.ShouldBe(command.ReservationId);
@@ -33,12 +34,16 @@ public class ReservationServiceTests
    private readonly IClock _clock = new TestClock();
    private readonly IWeeklyParkingSpotRepository _weeklyParkingSpotRepository;
    private readonly IReservationService _reservationService;
+   private readonly IEnumerable<IReservationPolicy> _polices;
+   private readonly IParkingReservationService _parkingReservationService;
 
    public ReservationServiceTests()
    {
       _clock = new TestClock();
       _weeklyParkingSpotRepository = new InMemoryWeeklyParkingSpotRepository(_clock);
-      _reservationService = new ReservationsService(_clock, _weeklyParkingSpotRepository);
+      _polices = new List<IReservationPolicy>() { new TestNoReservationPolicy() };
+      _parkingReservationService = new ParkingReservationService(_polices, _clock);
+      _reservationService = new ReservationsService(_clock, _weeklyParkingSpotRepository, _parkingReservationService);
    }
 
    #endregion

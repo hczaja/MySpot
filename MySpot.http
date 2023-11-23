@@ -6,13 +6,13 @@
 GET {{url}}
 
 ###
-GET {{url}}/reservations
+GET {{url}}/parking-spots
 
 ###
 GET {{url}}/reservations/{{reservationId}}
 
 ###
-POST {{url}}/reservations/vehicle
+POST {{url}}/parking-spots/{{parkingSpotId}}/reservations/vehicle
 Content-Type: application/json
 
 {
@@ -24,7 +24,7 @@ Content-Type: application/json
 }
 
 ###
-POST {{url}}/reservations/cleaning
+POST {{url}}/parking-spots/reservations/cleaning
 Content-Type: application/json
 
 {
@@ -32,7 +32,7 @@ Content-Type: application/json
 }
 
 ###
-PUT  {{url}}/reservations/{{reservationId}}
+PUT  {{url}}/parking-spots/reservations/{{reservationId}}
 Content-Type: application/json
 
 {
@@ -40,4 +40,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE {{url}}/reservations/{{reservationId}}
+DELETE {{url}}/parking-spots/reservations/{{reservationId}}

@@ -1,12 +1,9 @@
-using System.Xml.Schema;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MySpot.Application.Services;
-using MySpot.Core.Repositories;
+using MySpot.Application.Abstractions;
 using MySpot.Core.Services;
 using MySpot.Infrastructure.DAL;
-using MySpot.Infrastructure.DAL.Repositories;
 using MySpot.Infrastructure.Exceptions;
 using MySpot.Infrastructure.Services;
 
@@ -21,8 +18,14 @@ public static class Extensions
         services
             .AddPostgres(configuration)
             .AddSingleton<IClock, Clock>();
-            //.AddSingleton<IWeeklyParkingSpotRepository, InMemoryWeeklyParkingSpotRepository>();
+
+        var applicationAssembly = typeof(Clock).Assembly;
         
+        services.Scan(s => s.FromAssemblies(applicationAssembly)
+            .AddClasses(c => c.AssignableTo(typeof(IQueryHandler<,>)))
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
+
         return services;
     }
 

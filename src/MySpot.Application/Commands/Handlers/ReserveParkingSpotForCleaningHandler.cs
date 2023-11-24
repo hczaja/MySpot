@@ -28,12 +28,9 @@ public class ReserveParkingSpotForCleaningHandler
         _parkingReservationService.ReserveParkingForCleaning(
             weeklyParkingSpots, command.Date);
 
-        // var tasks = weeklyParkingSpots.Select(parkingSpot => _repository.UpdateAsync(parkingSpot));
-        // await Task.WhenAll(tasks);
-
-        foreach (var parkingSpot in weeklyParkingSpots)
-        {
-            await _weeklyParkingSpotRepository.UpdateAsync(parkingSpot);
-        }
+        var tasks = weeklyParkingSpots.Select(parkingSpot => 
+            _weeklyParkingSpotRepository.UpdateAsync(parkingSpot));
+            
+        await Task.WhenAll(tasks);
     }
 }

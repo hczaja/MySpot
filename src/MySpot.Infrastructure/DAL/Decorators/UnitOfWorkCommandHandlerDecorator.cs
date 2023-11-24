@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using MySpot.Application.Abstractions;
 using MySpot.Application.Commands;
 
@@ -6,8 +7,8 @@ namespace MySpot.Infrastructure.DAL.Decorators;
 internal sealed class UnitOfWorkCommandHandlerDecorator<TCommand>
     : ICommandHandler<TCommand> where TCommand : class, ICommand
 {
-    ICommandHandler<TCommand> _commandHandler;
-    IUnitOfWork _unitOfWork;
+    private readonly ICommandHandler<TCommand> _commandHandler;
+    private readonly IUnitOfWork _unitOfWork;
 
     public UnitOfWorkCommandHandlerDecorator(
         ICommandHandler<TCommand> commandHandler,

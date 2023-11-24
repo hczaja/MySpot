@@ -1,14 +1,12 @@
-using System.ComponentModel.DataAnnotations;
 using MySpot.Application.Commands;
-using MySpot.Core.Entities;
 using MySpot.Core.Repositories;
-using MySpot.Application.Services;
-using MySpot.Core.ValueObjects;
 using MySpot.Tests.Unit.Shared;
 using Shouldly;
 using MySpot.Infrastructure.DAL.Repositories;
 using MySpot.Core.Services;
 using MySpot.Core.Policies;
+using MySpot.Application.Abstractions;
+using MySpot.Application.Commands.Handlers;
 
 namespace MySpot.Tests.Unit.Services;
 
@@ -23,17 +21,21 @@ public class ReservationServiceTests
       var command = new ReserveParkingSpotForVehicle(
          parkingSpot.Id, Guid.NewGuid(), "Jon Snow", "ABC123", DateTime.Parse("2023-11-23"), 2);
    
-      var reservationId = await _reservationService.ReserveForVehicleAsync(command);
+      await _reservationService.HandleAsync(command);
+      var reservationId = (await _weeklyParkingSpotRepository.GetAllAsync())
+         .SelectMany(s => s.Reservations)
+         .SingleOrDefault(r => r.Id == command.ReservationId)
+         ?.Id;
 
       reservationId.ShouldNotBeNull();
-      reservationId.Value.ShouldBe(command.ReservationId);
+      reservationId.Id.ShouldBe(command.ReservationId);
    }
 
    #region Arrange
 
    private readonly IClock _clock = new TestClock();
    private readonly IWeeklyParkingSpotRepository _weeklyParkingSpotRepository;
-   private readonly IReservationService _reservationService;
+   private readonly ICommandHandler<ReserveParkingSpotForVehicle> _reservationService;
    private readonly IEnumerable<IReservationPolicy> _polices;
    private readonly IParkingReservationService _parkingReservationService;
 
@@ -43,7 +45,7 @@ public class ReservationServiceTests
       _weeklyParkingSpotRepository = new InMemoryWeeklyParkingSpotRepository(_clock);
       _polices = new List<IReservationPolicy>() { new RegularEmployeeReservationPolicy(_clock) };
       _parkingReservationService = new ParkingReservationService(_polices, _clock);
-      _reservationService = new ReservationsService(_clock, _weeklyParkingSpotRepository, _parkingReservationService);
+      _reservationService = new ReserveParkingSpotForVehicleHandler(_clock, _weeklyParkingSpotRepository, _parkingReservationService);
    }
 
    #endregion

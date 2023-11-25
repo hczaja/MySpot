@@ -3,6 +3,21 @@
 @parkingSpotId = 00000000-0000-0000-0000-000000000003
 
 ###
+POST {{url}}/users
+Content-Type: application/json
+
+{
+    "email": "user1@myspot.io",
+    "userName": "user1",
+    "password": "secret",
+    "fullName": "John Doe",
+    "role": "user" 
+}
+
+###
+GET {{url}}/users
+
+###
 GET {{url}}
 
 ###

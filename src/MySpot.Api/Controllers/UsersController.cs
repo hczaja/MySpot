@@ -51,6 +51,7 @@ public class UsersController : ControllerBase
 
 
     [HttpGet("{userId:guid}")]
+    [Authorize(Policy = "is-admin")]
     public async Task<ActionResult<UserDto>> Get(Guid userId)
     {
         var user = await _getUserhandler.HandleAsync(new GetUser { UserId = userId });
@@ -61,7 +62,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("me")]
-    [Authorize]
+    [Authorize(Policy = "is-admin")]
     public async Task<ActionResult<UserDto>> Get()
     {
         if (string.IsNullOrEmpty(HttpContext.User.Identity?.Name))

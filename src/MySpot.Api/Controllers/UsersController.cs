@@ -1,8 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MySpot.Application.Abstractions;
 using MySpot.Application.Commands;
 using MySpot.Application.DTO;
 using MySpot.Application.Queries;
+using MySpot.Application.Security;
+using MySpot.Core.ValueObjects;
 
 namespace MySpot.Api.Controllers;
 
@@ -11,17 +14,23 @@ namespace MySpot.Api.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly ICommandHandler<SignUp> _signUpHandler;
+    private readonly ICommandHandler<SignIn> _signInHandler;
     private readonly IQueryHandler<GetUser, UserDto> _getUserhandler;
     private readonly IQueryHandler<GetUsers, IEnumerable<UserDto>> _getUsershandler;
+    private readonly ITokenStorage _tokenStorage;
 
     public UsersController(
-        ICommandHandler<SignUp> signUpHandler, 
+        ICommandHandler<SignUp> signUpHandler,
+        ICommandHandler<SignIn> signInHandler, 
         IQueryHandler<GetUser, UserDto> getUserHandler,
-        IQueryHandler<GetUsers, IEnumerable<UserDto>> getUsersHandler)
+        IQueryHandler<GetUsers, IEnumerable<UserDto>> getUsersHandler,
+        ITokenStorage tokenStorage)
     {
         _signUpHandler = signUpHandler;
+        _signInHandler = signInHandler;
         _getUserhandler = getUserHandler;
         _getUsershandler = getUsersHandler;
+        _tokenStorage = tokenStorage;
     }
 
     [HttpPost]
@@ -31,10 +40,35 @@ public class UsersController : ControllerBase
         return NoContent();
     }
 
+    [HttpPost("sign-in")]
+    public async Task<ActionResult> Post(SignIn command)
+    {
+        await _signInHandler.HandleAsync(command);
+        var jwt = _tokenStorage.Get();
+
+        return Ok(jwt);
+    }
+
+
     [HttpGet("{userId:guid}")]
     public async Task<ActionResult<UserDto>> Get(Guid userId)
     {
         var user = await _getUserhandler.HandleAsync(new GetUser { UserId = userId });
+        if (user is null)
+            return NotFound();
+
+        return user;
+    }
+
+    [HttpGet("me")]
+    [Authorize]
+    public async Task<ActionResult<UserDto>> Get()
+    {
+        if (string.IsNullOrEmpty(HttpContext.User.Identity?.Name))
+            return NotFound();
+
+        var userId = Guid.Parse(HttpContext.User.Identity.Name);
+        var user = await _getUserhandler.HandleAsync(new GetUser { UserId = userId }); 
         if (user is null)
             return NotFound();
 

@@ -6,7 +6,7 @@ public sealed record Date
 
     public Date(DateTimeOffset value)
     {
-        Value = value.Date;
+        Value = value;
     }
 
     public Date(DateTime value)

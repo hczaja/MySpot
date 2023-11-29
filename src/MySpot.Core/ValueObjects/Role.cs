@@ -9,7 +9,8 @@ public class Role
         Value = value;
     }
 
-    public static Role User() => new Role("User");
+    public static Role User() => new Role("user");
+    public static Role Admin() => new Role("admin");
 
     public static implicit operator Role(string role) => new (role);
     public static implicit operator string(Role role) => role.Value;

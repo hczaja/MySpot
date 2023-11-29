@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using MySpot.Application.Abstractions;
 using MySpot.Application.Commands;
@@ -38,7 +39,7 @@ public class UsersController : ControllerBase
     public async Task<ActionResult> Post(SignUp command)
     {
         await _signUpHandler.HandleAsync(command with { UserId = Guid.NewGuid() });
-        return NoContent();
+        return CreatedAtAction(nameof(Get), new {command.UserId}, null);
     }
 
     [HttpPost("sign-in")]

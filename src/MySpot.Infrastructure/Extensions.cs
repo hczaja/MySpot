@@ -17,6 +17,8 @@ public static class Extensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<AppOptions>(configuration.GetRequiredSection("app"));
+
         services.AddSingleton<ExceptionMiddleware>();
         services.AddSecurity();
         services.AddAuth(configuration);

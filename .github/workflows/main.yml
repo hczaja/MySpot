@@ -9,4 +9,4 @@ jobs:
         run: |
           x="1.2.3.4"
           y="{{x.split('.'[0:4]|join('.'}}"
-          echo y
+          echo $y

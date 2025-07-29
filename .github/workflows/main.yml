@@ -1,0 +1,12 @@
+name: main
+on:
+  workflow_dispatch:
+jobs:
+  test-main:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: z
+        run: |
+          x='1.2.3.4'
+          y=x.split('.')
+          echo y

@@ -16,5 +16,12 @@ jobs:
         run: |
           version=${{ steps.get-version.outputs.x }}
           arrIN=(${version//./ })
-          y="${arrIN[0]}.${arrIN[1]}.${arrIN[2]}${arrIN[3]}"
+          if [ ${#arr[@]} -eq 4 ]; then
+            echo "true"
+            y="${arrIN[0]}.${arrIN[1]}.${arrIN[2]}${arrIN[3]}"
+          else
+            echo "false"
+            y=$version
+          fi
+          
           echo $y

@@ -4,10 +4,16 @@ on:
 jobs:
   test-main:
     runs-on: ubuntu-22.04
+    outputs:
+      x: ${{ steps.get-version.outputs.x }}
     steps:
+      - name: get version
+        id: get-version
+        run: |
+          version="1.2.3.4"
+          echo "x=$version" >> "$GITHUB_OUTPUT"
       - name: split version
         run: |
-          x="1.2.3.4"
           arrIN=(${x//./ })
           y="${arrIN[0]}.${arrIN[1]}.${arrIN[2]}${arrIN[3]}"
           echo $y

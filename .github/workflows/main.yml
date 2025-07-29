@@ -9,5 +9,5 @@ jobs:
         run: |
           x="1.2.3.4"
           arrIN=(${x//./ })
-          y = ${arrIN[0]}.${arrIN[1]}.${arrIN[2]}${arrIN[3]}
+          y="${arrIN[0]}.${arrIN[1]}.${arrIN[2]}${arrIN[3]}"
           echo $y

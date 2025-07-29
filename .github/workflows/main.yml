@@ -8,5 +8,6 @@ jobs:
       - name: split version
         run: |
           x="1.2.3.4"
-          y="{{x.split('.')[0:4]|join('.')}}"
+          arrIN=(${x//./ })
+          y = ${arrIN[0]}.${arrIN[1]}.${arrIN[2]}${arrIN[3]}
           echo $y
